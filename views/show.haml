@@ -1,22 +1,25 @@
 %nav.navbar.navbar-fixed-top{role:"navigation"}
 	.container{style:"background-color:white;padding-top:0.5em;padding-bottom:0.5em;border-bottom:1px solid #ccc"}
-		%strong= @author
-		%strong= @title
+		%strong= "#{@author} #{@title}"
+		- if params[:mode] == 'line'
+			(台詞)
+		- elsif params[:mode] == 'sort'
+			(ソート)
 		%span.pull-right
-			- # %a#toggle-ruby{href:'#'} ルビ表示
-			- # = "/"
-			%a{href:"http://www.aozora.gr.jp/cards/#{params[:cards]}/files/#{params[:files]}"} 青空文庫
-			= "/"
-			%strong
-				%a{href:'/'} cirrocumulus
+			%span.dropdown
+				%a.dropdown-toggle{:href=>'#',:'data-toggle'=>'dropdown'}
+					モード
+					%span.caret
+				%ul.dropdown-menu
+					%li
+						%a{href:"#{URI.parse(work_url(params)).path}"} 通常
+					%li
+						%a{href:"#{URI.parse(work_url(params)).path}?mode=line"} 台詞
+					%li
+						%a{href:"#{URI.parse(work_url(params)).path}?mode=sort"} ソート
+			= "&nbsp;/&nbsp;"
+			%a{href:work_url(params)} 青空文庫
+			= "&nbsp;/&nbsp;"
+			%a{href:'/'} cirrocumulus
 .container{style:'padding-top: 4.0em;'}
 	!= @doc.to_s
-:coffeescript
-	$('#toggle-ruby').on 'click', (e)->
-		e.preventDefault()	
-		if $('rt').is(':visible')
-			$('rt').hide()
-			$('#toggle-ruby').html 'ルビ隠す'
-		else
-			$('rt').show()
-			$('#toggle-ruby').html 'ルビ表示'

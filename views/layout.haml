@@ -5,6 +5,7 @@
 		%meta{name:"viewport",content:"width=device-width,initial-scale=1.0"}
 		%link{rel:'stylesheet',href:'/bootstrap/dist/css/bootstrap.min.css'}
 		%script{type:'text/javascript',src:'/jquery/dist/jquery.min.js'}
+		%script{type:'text/javascript',src:'/bootstrap/js/dropdown.js'}
 		:css
 			rt { display: none }
 			.jumbotron { background-color: white }
@@ -27,7 +28,12 @@
 				}
 			}
 		- if @doc
-			%title= "#{@author} #{@title}"
+			%title
+				= "#{@author} #{@title}"
+				- if @params[:mode] == 'line'
+					(台詞)
+				- elsif @params[:mode] == 'sort'
+					(ソート)
 		- elsif params[:query]
 			%title= "#{params[:query]} の検索結果 - cirrocumulus"
 		- else
