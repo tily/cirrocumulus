@@ -24,7 +24,6 @@ end
 get '/' do
 	if params[:query]
 		keywords = params[:query].split(/\s+/)
-		p keywords
 		f = File.open('./list_person_all_extended_utf8.csv')
 		@results = []
 		f.each_line do |l|
