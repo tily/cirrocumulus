@@ -1,0 +1,42 @@
+!!! 5
+%html
+	%head
+		%meta{charset: 'utf-8'}/
+		%meta{name:"viewport",content:"width=device-width,initial-scale=1.0"}
+		%link{rel:'stylesheet',href:'/bootstrap/dist/css/bootstrap.min.css'}
+		%script{type:'text/javascript',src:'/jquery/dist/jquery.min.js'}
+		:css
+			rt { display: none }
+			.jumbotron { background-color: white }
+			@media (min-width: 768px) {
+				.container {
+					max-width: 600px;
+				}
+			}
+
+			@media (min-width: 992px) {
+				.container {
+					max-width: 600px;
+				}
+			}
+
+			@media (min-width: 1200px) {
+				.container {
+					max-width: 600px;
+				}
+			}
+		- if @doc
+			%title= "#{@author} #{@title}"
+		- elsif params[:query]
+			%title= "#{params[:query]} の検索結果 - cirrocumulus"
+		- else
+			%title cirrocumulus
+		- if @doc
+			%link{rel:"DC.Schema",href:"http://purl.org/dc/elements/1.1/"}
+			%meta{name:"DC.Creator",content:@author}
+			%meta{name:"DC.Publisher",content:"c10s"}
+			%meta{property:"twitter:card",content:"summary"}
+			%meta{property:"twitter:title",content:"#{@author} #{@title}"}
+			%meta{property:"twitter:description",content:@doc.xpath('//body').text.gsub(/\r?\n/, ' ')[0, 500]}
+	%body
+		!= yield

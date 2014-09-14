@@ -1,0 +1,17 @@
+%nav.navbar{role:"navigation",style:'margin-bottom:0;'}
+	.container{style:"background-color:white;border-bottom:1px solid #ccc;padding-top:0.5em;padding-bottom:0.5em;"}
+		%ul.nav.navbar-nav
+			%li
+				%strong
+					%a{href:'/'} cirrocumulus
+.container
+	%form.form-inline{action:'/',method:'GET'}
+		.form-group
+			%input.form-control.input-sm{name:'query',type:'text',value:params[:query]}
+		%button.btn.btn-default.btn-sm Go
+		%span.badge= @results.size
+	%ul.list-group{style:'padding-top:1.0em;'}
+		- @results.each do |result|
+			%li.list-group-item
+				= "#{result[15]}#{result[16]}"
+				%a{href:URI.parse(result[-5]).path}= "「#{result[1]}」"
