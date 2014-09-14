@@ -54,6 +54,7 @@ get '/cards/:cards/files/:files' do
 		img['src'] = 'http://www.aozora.gr.jp/' + img['src']
 	end
 	@doc.xpath('//hr/following::*').remove
+	@doc.xpath('//rt').remove
 	@doc.xpath('//div[@class="bibliographical_information"]').remove
 	haml :show
 end
