@@ -56,5 +56,9 @@ get '/cards/:cards/files/:files' do
 	@doc.xpath('//hr/following::*').remove
 	@doc.xpath('//rt').remove
 	@doc.xpath('//div[@class="bibliographical_information"]').remove
+	if params[:mode] == 'sort'
+		body = @doc.xpath('//body').first
+		body.content = body.to_s.split(//).sort.join
+	end
 	haml :show
 end
