@@ -7,6 +7,7 @@ gem 'redis-namespace'
 gem 'nokogiri'
 gem 'therubyracer'
 gem 'coffee-filter'
+gem 'algorithms'
 group :development do
 	gem 'shotgun'
 end
