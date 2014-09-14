@@ -55,10 +55,22 @@ get '/cards/:cards/files/:files' do
 	end
 	@doc.xpath('//hr/following::*').remove
 	@doc.xpath('//rt').remove
+	@doc.xpath('//rp').remove
 	@doc.xpath('//div[@class="bibliographical_information"]').remove
 	if params[:mode] == 'sort'
 		body = @doc.xpath('//body').first
 		body.content = Algorithms::Sort.mergesort(body.to_s.split(//)).join
+	elsif params[:mode] == 'line'
+		body = @doc.xpath('//body').first
+		lines = body.text.scan(/「(.+?)」/)
+		ul = Nokogiri::XML::Node.new('ul', @doc)
+		lines.each do |line|
+			li = Nokogiri::XML::Node.new('li', @doc)
+			li.content = line.first
+			ul << li
+		end
+		body.children.remove
+		body << ul
 	end
 	haml :show
 end
