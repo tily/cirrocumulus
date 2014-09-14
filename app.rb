@@ -50,5 +50,8 @@ get '/cards/:cards/files/:files' do
 	@author = h2.text
 	h1.remove
 	h2.remove
+	@doc.xpath('//img').each do |img|
+		img['src'] = 'http://www.aozora.gr.jp/' + img['src']
+	end
 	haml :show
 end
