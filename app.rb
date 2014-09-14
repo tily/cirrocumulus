@@ -32,6 +32,7 @@ get '/' do
 			end
 			@results << l.split(",").map {|e| e[/"(.+)"/, 1] } if match
 		end
+		f.close
 		haml :result
 	else
 		haml :top
