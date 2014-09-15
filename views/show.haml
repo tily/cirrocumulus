@@ -1,6 +1,8 @@
 %nav.navbar.navbar-fixed-top{role:"navigation"}
 	.container{style:"background-color:white;padding-top:0.5em;padding-bottom:0.5em;border-bottom:1px solid #ccc"}
-		%strong= "#{@author} #{@title}"
+		%strong
+			%a{href:"/?query=#{@author}"}= @author
+			= @title
 		- if params[:mode] == 'line'
 			(台詞)
 		- elsif params[:mode] == 'sort'
