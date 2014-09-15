@@ -59,7 +59,7 @@ get '/cards/:cards/files/:files' do
 	@doc.xpath('//div[@class="bibliographical_information"]').remove
 	if params[:mode] == 'sort'
 		body = @doc.xpath('//body').first
-		body.content = Algorithms::Sort.mergesort(body.to_s.split(//)).join
+		body.content = Algorithms::Sort.mergesort(body.text.split(//)).join
 	elsif params[:mode] == 'line'
 		body = @doc.xpath('//body').first
 		lines = body.text.scan(/「(.+?)」/)
