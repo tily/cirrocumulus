@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'kconv'
+require 'stringio'
 Bundler.require
 
 $redis = Redis::Namespace.new(:nimbus, redis: Redis::Pool.new(url: ENV['REDISTOGO_URL'] || 'redis://localhost:6379/15'))
@@ -18,6 +19,15 @@ configure do
 
 	def work_url(params)
 		"http://www.aozora.gr.jp/cards/#{params[:cards]}/files/#{params[:files]}"
+	end
+
+	def str_to_arr(str)
+		arr = []
+		io = StringIO.new(str)
+		while char = io.getc
+		        arr << char
+		end
+		arr
 	end
 end
 
@@ -59,7 +69,7 @@ get '/cards/:cards/files/:files' do
 	@doc.xpath('//div[@class="bibliographical_information"]').remove
 	if params[:mode] == 'sort'
 		body = @doc.xpath('//body').first
-		body.content = Algorithms::Sort.mergesort(body.text.split(//)).join
+		body.content = Algorithms::Sort.mergesort(str_to_arr(body.text)).join
 	elsif params[:mode] == 'line'
 		body = @doc.xpath('//body').first
 		lines = body.text.scan(/「(.+?)」/)
