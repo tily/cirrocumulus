@@ -70,7 +70,8 @@ get '/cards/:cards/files/:files' do
 
 	if empty_line = params[:empty_line]
 		p 'here'
-		html = @doc.to_s.gsub(/([^>\s])\s*?(<br\s*\/?>\s+?){2,}/) { $1 + "<br /><br />" * empty_line.to_i }
+		#html = @doc.to_s.gsub(/([^>\s])\s*?(<br\s*\/?>\s+?){2,}/) { $1 + "<br /><br />" * empty_line.to_i }
+		html = @doc.to_s.gsub(/((<br\s*\/?>\s+?){2,}/) { "<br /><br />" * empty_line.to_i }
 		p html
 		@doc = Nokogiri::HTML(html)
 	end
