@@ -67,6 +67,12 @@ get '/cards/:cards/files/:files' do
 	@doc.xpath('//rt').remove
 	@doc.xpath('//rp').remove
 	@doc.xpath('//div[@class="bibliographical_information"]').remove
+
+	if empty_line = params[:empty_line]
+		html = @doc.to_s.gsub(/([^>\s])\s*?(<br\s*\/?>\s+?){2,}/) { $1 + "<br /><br />" * empty_line.to_i }
+		@doc = Nokogiri::HTML(html)
+	end
+
 	if params[:mode] == 'sort'
 		body = @doc.xpath('//body').first
 		body.content = Algorithms::Sort.mergesort(str_to_arr(body.text)).join
