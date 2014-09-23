@@ -3,6 +3,7 @@
 		%strong
 			%a{href:"/?query=#{@author}"}= @author
 			= @title
+		= "(文庫本 約 #{@doc.text.size / 600} ページ分)"
 		- if params[:mode] == 'line'
 			(台詞)
 		- elsif params[:mode] == 'sort'
