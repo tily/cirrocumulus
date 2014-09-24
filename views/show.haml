@@ -20,9 +20,24 @@
 						%a{href:"#{URI.parse(work_url(params)).path}?mode=line"} 台詞
 					%li
 						%a{href:"#{URI.parse(work_url(params)).path}?mode=sort"} ソート
+					%li
+						%a#locate{href:"#"} 位置づける
 			= "&nbsp;/&nbsp;"
 			%a{href:work_url(params)} 青空文庫
 			= "&nbsp;/&nbsp;"
 			%a{href:'/'} 鰯雲
-.container{style:'padding-top: 4.0em;'}
+.container#content{style:'padding-top: 4.0em;'}
 	!= @doc.to_s
+:coffeescript
+	hash = window.location.hash
+	if hash.match(/^#([0-9]{1,3})%$/)
+		percent = RegExp.$1
+		console.log percent
+		console.log $('#content').prop('scrollHeight') * parseInt(percent)
+		scrollTop = $('#content').prop('scrollHeight') * parseInt(percent) / 100
+		console.log 'hello', scrollTop
+		$('html, body').animate({scrollTop: scrollTop}, 1)
+	$('#locate').on 'click', (e)->
+		e.preventDefault()	
+		percent = Math.round($('body').scrollTop() / $('#content').height() * 100)
+		window.location.hash = percent + '%'
