@@ -11,11 +11,9 @@
 		%span.pull-right
 			%span.dropdown
 				%a.dropdown-toggle{:href=>'#',:'data-toggle'=>'dropdown'}
-					モード
+					メニュー	
 					%span.caret
 				%ul.dropdown-menu
-					%li
-						%a{href:"#{URI.parse(work_url(params)).path}"} 通常
 					%li
 						%a{href:"#{URI.parse(work_url(params)).path}?mode=line"} 台詞
 					- # %li
