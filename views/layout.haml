@@ -8,10 +8,9 @@
 		%script{type:'text/javascript',src:'/bootstrap/js/dropdown.js'}
 		- if @doc && session[:solarized]
 			:css
-				/* solarized */
 				body, .navbar, .container { background-color: #002b36; color: #839496 }
 				a:link, a:hover, a:active, a:visited { color: #93a1a1 }
-				.navbar .container { padding-top:0.5em;padding-bottom:0.5em;border-bottom:1px solid #839496"}
+				.navbar .container { padding-top:0.5em;padding-bottom:0.5em;border-bottom:1px solid #839496 }
 		- else
 			:css
 				.navbar .container { padding-top:0.5em;padding-bottom:0.5em;border-bottom:1px solid #cccccc; background-color: white }
