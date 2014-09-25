@@ -8,6 +8,7 @@ gem 'nokogiri'
 gem 'therubyracer'
 gem 'coffee-filter'
 gem 'algorithms'
+gem 'rack-session-redis', require: 'rack/session/redis'
 group :development do
 	gem 'shotgun'
 end
