@@ -6,11 +6,14 @@
 		%link{rel:'stylesheet',href:'/bootstrap/dist/css/bootstrap.min.css'}
 		%script{type:'text/javascript',src:'/jquery/dist/jquery.min.js'}
 		%script{type:'text/javascript',src:'/bootstrap/js/dropdown.js'}
-		- if @doc
+		- if @doc && session[:solarized]
 			:css
 				/* solarized */
 				body, .navbar, .container { background-color: #002b36; color: #839496 }
 				a:link, a:hover, a:active, a:visited { color: #93a1a1 }
+		- if @doc && session['font-family'] == 'mincho'
+			:css
+				* { font-family: "ヒラギノ明朝 ProN W6", "HiraMinProN-W6", "HG明朝E", "ＭＳ Ｐ明朝", "MS PMincho", "MS 明朝", serif; }
 		:css
 			rt { display: none }
 			.jumbotron { background-color: white }
