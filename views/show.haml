@@ -22,6 +22,16 @@
 						%a#locate{href:"#"} パーセントしおり
 					%li
 						%a#tweet{"href"=>"https://twitter.com/share"} しおりツイート
+					%li
+						- if session[:solarized]
+							%a#tweet{"href"=>"/session?solarized=false&redirect_to=#{request.url}"} soralized 無効化
+						- else
+							%a#tweet{"href"=>"/session?solarized=true&redirect_to=#{request.url}"} soralized 有効化
+					%li
+						- if session['font-family'] == 'gothic'
+							%a#tweet{"href"=>"/session?font-family=mincho&redirect_to=#{request.url}"} 明朝
+						- else
+							%a#tweet{"href"=>"/session?font-family=gothic&redirect_to=#{request.url}"} ゴシック
 			= "&nbsp;/&nbsp;"
 			%a{href:work_url(params)} 青空文庫
 			= "&nbsp;/&nbsp;"
