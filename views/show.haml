@@ -1,5 +1,5 @@
 %nav.navbar.navbar-fixed-top{role:"navigation",style:'padding-bottom:0px'}
-	.container{style:"padding-top:0.5em;padding-bottom:0.5em;border-bottom:1px solid #839496"}
+	.container
 		%strong
 			%a{href:"/?query=#{@author}"}= @author
 			= @title
@@ -14,6 +14,8 @@
 					メニュー	
 					%span.caret
 				%ul.dropdown-menu
+					%li
+						%a{href:URI.parse(work_url(params)).path} パーマリンク
 					%li
 						%a{href:"#{URI.parse(work_url(params)).path}?mode=line"} 台詞
 					- # %li
