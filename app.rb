@@ -6,6 +6,12 @@ Bundler.require
 $redis = Redis::Namespace.new(:nimbus, redis: Redis::Pool.new(url: ENV['REDISTOGO_URL'] || 'redis://localhost:6379/15'))
 
 configure do
+	use Rack::Session::Redis, {
+		:url          => ENV['REDISTOGO_URL'] || 'redis://localhost:6379/15',
+		:namespace    => "rack:session",
+		:expire_after => 60*60*24*7
+	}
+
 	def cache(url)
 		if html = $redis.get(url)
 			html
@@ -92,4 +98,14 @@ get '/cards/:cards/files/:files' do
 		body << ul
 	end
 	haml :show
+end
+
+get '/session' do
+	if params[:solarized]
+		session[:solarized] = params[:solarized] == 'true'
+	end
+	if params['font-family']
+		session['font-family'] = (params['font-family'] == 'mincho' ? 'mincho' : 'gothic')
+	end
+	redirect params['redirect_to'] || '/'
 end
