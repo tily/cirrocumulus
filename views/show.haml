@@ -61,3 +61,6 @@
 			'?text=', encodeURI($('title').html().replace(/^\s+/, '').replace(/\s+$/, '') + ' (' + currentPercentage() + '%)'),
 			'&url=', window.location.href.replace(/#/, '%23')
 		].join(''), '_blank'
+	$(window).on 'scroll', (e)->
+		locate()
+	locate()
