@@ -37,6 +37,13 @@ configure do
 	end
 end
 
+helpers do
+	def markdown2html(markdown)
+		renderer = Redcarpet::Render::HTML.new(filter_html:true)
+		Redcarpet::Markdown.new(renderer, autolink: true).render(markdown)
+	end
+end
+
 get '/' do
 	if params[:query]
 		keywords = params[:query].split(/\s+/)
@@ -53,6 +60,19 @@ get '/' do
 	else
 		haml :top
 	end
+end
+
+get '/EnJoeToh/Prologue' do
+	md = ''
+	@author = '円城塔'
+	@title = 'Prologue (by-nc-sa)'
+	1.upto(6) do |i|
+		text = StringIO.new File.read("enjoe-prologue/#{i}.txt")
+		text.gets
+		md += text.read.gsub(/^#.+$/, '').gsub(/\n/, "\n\n") + "\n\n"
+	end
+	@doc = Nokogiri::HTML.fragment markdown2html(md)
+	haml :show
 end
 
 get '/cards/:cards/files/:files' do
