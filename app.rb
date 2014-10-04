@@ -63,7 +63,7 @@ end
 get '/EnJoeToh/Prologue' do
 	md = ''
 	@author = '円城塔'
-	@title = 'Prologue (by-nc-sa)'
+	@title = 'Prologue'
 	1.upto(6) do |i|
 		text = StringIO.new File.read("enjoe-prologue/#{i}.txt")
 		text.gets
