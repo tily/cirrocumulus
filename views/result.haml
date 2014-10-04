@@ -9,9 +9,17 @@
 		.form-group
 			%input.form-control.input-sm{name:'query',type:'text',value:params[:query]}
 		%button.btn.btn-default.btn-sm Go
-		%span.badge= @results.size
-	%ul.list-group{style:'padding-top:1.0em;'}
-		- @results.each do |result|
+		- if @results
+			%span.badge= @results.size
+	- if params[:query]
+		%ul.list-group{style:'padding-top:1.0em;'}
+			- @results.each do |result|
+				%li.list-group-item
+					= "#{result[15]}#{result[16]}"
+					%a{href:URI.parse(result[-5]).path}= "「#{result[1]}」"
+	- else
+		%h2 青空文庫以外の書籍
+		%ul.list-group
 			%li.list-group-item
-				= "#{result[15]}#{result[16]}"
-				%a{href:URI.parse(result[-5]).path}= "「#{result[1]}」"
+				円城塔
+				%a{href:'/EnJoeToh/Prologue'} 「Prologue」

@@ -56,10 +56,8 @@ get '/' do
 			@results << l.split(",").map {|e| e[/"(.+)"/, 1] } if match
 		end
 		f.close
-		haml :result
-	else
-		haml :top
 	end
+	haml :result
 end
 
 get '/EnJoeToh/Prologue' do
