@@ -35,7 +35,10 @@
 						- else
 							%a#tweet{"href"=>"/session?font-family=gothic&redirect_to=#{request.url}"} ゴシック
 			= "&nbsp;/&nbsp;"
-			%a{href:work_url(params)} 青空文庫
+			- if request.path == '/EnJoeToh/Prologue'
+				%a{href:'https://github.com/EnJoeToh/Prologue'} GitHub
+			- else
+				%a{href:work_url(params)} 青空文庫
 			= "&nbsp;/&nbsp;"
 			%a{href:'/'} 鰯雲
 .container#content{style:'padding-top: 4.0em;'}
