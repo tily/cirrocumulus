@@ -88,8 +88,10 @@ get '/cards/:cards/files/:files' do
 		img['src'] = 'http://www.aozora.gr.jp/' + img['src']
 	end
 	@doc.xpath('//hr/following::*').remove
-	@doc.xpath('//rt').remove
-	@doc.xpath('//rp').remove
+	unless session[:ruby]
+		@doc.xpath('//rt').remove
+		@doc.xpath('//rp').remove
+	end
 	@doc.xpath('//div[@class="bibliographical_information"]').remove
 
 	if empty_line = params[:empty_line]
@@ -124,6 +126,9 @@ get '/session' do
 	end
 	if params['font-family']
 		session['font-family'] = (params['font-family'] == 'mincho' ? 'mincho' : 'gothic')
+	end
+	if params['ruby']
+		session['ruby'] = params['ruby'] == 'true'
 	end
 	redirect params['redirect_to'] || '/'
 end

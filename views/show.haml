@@ -34,6 +34,11 @@
 							%a#tweet{"href"=>"/session?font-family=mincho&redirect_to=#{request.url}"} 明朝
 						- else
 							%a#tweet{"href"=>"/session?font-family=gothic&redirect_to=#{request.url}"} ゴシック
+					%li
+						- if session['ruby']
+							%a#tweet{"href"=>"/session?ruby=false&redirect_to=#{request.url}"} ルビ非表示
+						- else
+							%a#tweet{"href"=>"/session?ruby=true&redirect_to=#{request.url}"} ルビ表示
 			= "&nbsp;/&nbsp;"
 			- if request.path == '/EnJoeToh/Prologue'
 				%a{href:'https://github.com/EnJoeToh/Prologue'} GitHub
