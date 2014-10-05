@@ -132,6 +132,10 @@ get '/cards/:cards/files/:files' do
 		end
 		body.children.remove
 		body << ul
+	elsif params[:mode] == 'reverse'
+		body = @doc.xpath('//body').first
+		sentences = body.text.split(/。/).reverse.join('。')
+		body.content = sentences
 	end
 	haml :show
 end
