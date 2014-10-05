@@ -1,0 +1,12 @@
+development:
+  sessions:
+    default:
+      hosts:
+        - localhost:27017
+      database: cirrocumulus_development
+production:
+  sessions:
+    default:
+      uri: <%= ENV['MONGOHQ_URL'] %>
+      options:
+        timeout: 15

@@ -2,15 +2,23 @@ require 'open-uri'
 require 'kconv'
 require 'stringio'
 Bundler.require
+require './models/user.rb'
 
 $redis = Redis::Namespace.new(:nimbus, redis: Redis::Pool.new(url: ENV['REDISTOGO_URL'] || 'redis://localhost:6379/15'))
 
 configure do
+	enable :sessions
+	set :session_secret, ENV['SESSION_SECRET']
+
 	use Rack::Session::Redis, {
 		:url          => ENV['REDISTOGO_URL'] || 'redis://localhost:6379/15',
 		:namespace    => "rack:session",
 		:expire_after => 60*60*24*7
 	}
+
+	use OmniAuth::Builder do
+	        provider :twitter, ENV['CONSUMER_KEY'], ENV['CONSUMER_SECRET']
+	end
 
 	def cache(url)
 		if html = $redis.get(url)
@@ -35,9 +43,15 @@ configure do
 		end
 		arr
 	end
+
+	Mongoid.load!("./mongoid.yml")
 end
 
 helpers do
+	def current_user
+		@current_user ||= User.where(uid: session[:uid]).first
+	end
+
 	def markdown2html(markdown)
 		renderer = Redcarpet::Render::HTML.new(filter_html:true)
 		Redcarpet::Markdown.new(renderer, autolink: true).render(markdown)
@@ -132,4 +146,16 @@ get '/session' do
 		session['ruby'] = params['ruby'] == 'true'
 	end
 	redirect params['redirect_to'] || '/'
+end
+
+get '/logout' do
+	session[:uid] = nil
+	redirect '/'
+end
+
+get '/auth/twitter/callback' do
+	auth = request.env["omniauth.auth"]
+	User.where(:provider => auth["provider"], :uid => auth["uid"]).first || User.create_with_omniauth(auth)
+	session[:uid] = auth["uid"]
+	redirect '/'
 end
