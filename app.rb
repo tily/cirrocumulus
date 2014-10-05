@@ -65,7 +65,8 @@ get '/EnJoeToh/Prologue' do
 	@author = '円城塔'
 	@title = 'Prologue'
 	1.upto(6) do |i|
-		text = StringIO.new File.read("enjoe-prologue/#{i}.txt")
+		url = "https://raw.githubusercontent.com/EnJoeToh/Prologue/master/prologue#{i}.dat"
+		text = StringIO.new cache(url) { open(url).read }
 		text.gets
 		md += text.read.gsub(/^#.+$/, '').gsub(/\n/, "\n\n") + "\n\n"
 	end
