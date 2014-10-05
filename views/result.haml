@@ -4,6 +4,13 @@
 			%li
 				%strong
 					%a{href:'/'} 鰯雲
+		%ul.nav.navbar-nav.pull-right
+			- if current_user
+				%li
+					%a{href:'/logout',style:'padding:0'} ログアウト
+			- else
+				%li
+					%a{href:'/auth/twitter',style:'padding:0'} ログイン
 .container
 	%form.form-inline{action:'/',method:'GET'}
 		.form-group
