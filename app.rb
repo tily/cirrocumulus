@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'kconv'
+require 'csv'
 require 'stringio'
 Bundler.require
 require './models/user.rb'
@@ -119,7 +120,7 @@ get '/cards/:cards/files/:files' do
 
 	if params[:mode] == 'sort'
 		body = @doc.xpath('//body').first
-		body.content = Algorithms::Sort.mergesort(str_to_arr(body.text)).join
+		body.content = cache("sorted:#{work_url(params)}") { Algorithms::Sort.mergesort(str_to_arr(body.text)).join }
 	elsif params[:mode] == 'line'
 		body = @doc.xpath('//body').first
 		lines = body.text.scan(/「(.+?)」/)
@@ -146,6 +147,10 @@ get '/session' do
 		session['ruby'] = params['ruby'] == 'true'
 	end
 	redirect params['redirect_to'] || '/'
+end
+
+get '/csv' do
+	haml :csv
 end
 
 get '/logout' do
