@@ -4,6 +4,7 @@ require 'csv'
 require 'stringio'
 Bundler.require
 require './models/user.rb'
+require './models/work.rb'
 
 $redis = Redis::Namespace.new(:nimbus, redis: Redis::Pool.new(url: ENV['REDISTOGO_URL'] || 'redis://localhost:6379/15'))
 
@@ -90,16 +91,15 @@ get '/EnJoeToh/Prologue' do
 end
 
 get '/cards/:cards/files/:files' do
+	@work = Work.where(html_url: work_url(params)).first
 	html = cache(work_url(params)) { open(work_url(params), 'r:binary').read }
 	@doc = Nokogiri::HTML(html.toutf8, nil, 'utf-8')
 	meta = @doc.xpath('//meta[@http-equiv="Content-Type"]').first
 	meta['content'] = meta['content'].gsub(/(charset\=)(.+)/) { "#{$1}utf-8" }
-	h1 = @doc.xpath('//h1')
-	h2 = @doc.xpath('//h2')
-	@title = h1.text
-	@author = h2.text
-	h1.remove
-	h2.remove
+	@doc.xpath('//h1').remove
+	@doc.xpath('//h2').remove
+	@title = @work.title
+	@author = (@work.last_name || '') + (@work.first_name || '')
 	@doc.xpath('//img').each do |img|
 		img['src'] = 'http://www.aozora.gr.jp/' + img['src']
 	end
