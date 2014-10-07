@@ -1,0 +1,22 @@
+%nav.navbar{role:"navigation",style:'margin-bottom:0;'}
+	.container{style:"background-color:white;border-bottom:1px solid #ccc;padding-top:0.5em;padding-bottom:0.5em;"}
+		%ul.nav.navbar-nav
+			%li
+				%strong
+					%a{href:'/'} 鰯雲
+		%ul.nav.navbar-nav.pull-right
+			- if current_user
+				%li
+					%a{href:'/logout',style:'padding:0'} ログアウト
+			- else
+				%li
+					%a{href:'/auth/twitter',style:'padding:0'} ログイン
+.container
+	%h2= current_user.screen_name
+	%h3 読んだ作品
+	%ul.list-group
+	- @user.reads.each do |read|
+		%li.list-group-item
+			#{read.created_at.strftime('%Y年%m月%d日')}
+			= (read.work.last_name || '') + (read.work.first_name || '')
+			%a{href:URI.parse(read.work.html_url).path}= read.work.title

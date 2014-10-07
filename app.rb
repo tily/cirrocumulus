@@ -5,6 +5,7 @@ require 'stringio'
 Bundler.require
 require './models/user.rb'
 require './models/work.rb'
+require './models/read.rb'
 
 $redis = Redis::Namespace.new(:nimbus, redis: Redis::Pool.new(url: ENV['REDISTOGO_URL'] || 'redis://localhost:6379/15'))
 
@@ -151,6 +152,17 @@ get '/session' do
 		session['ruby'] = params['ruby'] == 'true'
 	end
 	redirect params['redirect_to'] || '/'
+end
+
+get '/:user' do
+	@user = User.where(screen_name: params[:user]).first
+	haml :user
+end
+
+post '/:user' do
+	work = Work.where(html_url: work_url(params)).first
+	current_user.reads.create(work: work)
+	redirect "/#{current_user.screen_name}"
 end
 
 get '/csv' do

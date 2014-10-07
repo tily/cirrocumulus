@@ -111,4 +111,6 @@ class Work
 	field :html_charset, type: String
 	# XHTML/HTMLファイル修正回数 (例: 2, 0)
 	field :html_mod_times, type: String
+
+	has_many :reads
 end

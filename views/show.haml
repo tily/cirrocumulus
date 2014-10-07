@@ -43,6 +43,8 @@
 							%a#tweet{"href"=>"/session?ruby=false&redirect_to=#{request.url}"} ルビ非表示
 						- else
 							%a#tweet{"href"=>"/session?ruby=true&redirect_to=#{request.url}"} ルビ表示
+					%li
+						%a#read{"href"=>"#"} 読んだ
 			= "&nbsp;/&nbsp;"
 			- if request.path == '/EnJoeToh/Prologue'
 				%a{href:'https://github.com/EnJoeToh/Prologue'} GitHub
@@ -80,3 +82,14 @@
 	$(window).on 'scroll', (e)->
 		locate()
 	locate()
+
+- if current_user
+	:coffeescript
+		$('#read').on 'click', (e)->
+			# e.preventDefault()
+			# if confirm('ok?')	
+			form = $('<form>').attr(method:'POST',action:"/#{current_user.screen_name}")
+			form.append $('<input>').attr(name:'cards',value:'#{params[:cards]}')
+			form.append $('<input>').attr(name:'files',value:'#{params[:files]}')
+			console.log form
+			form.get(0).submit()
