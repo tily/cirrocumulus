@@ -15,7 +15,7 @@
 	%h2= current_user.screen_name
 	%h3 読んだ作品
 	%ul.list-group
-	- @user.reads.each do |read|
+	- @user.reads.desc(:created_at).each do |read|
 		%li.list-group-item
 			#{read.created_at.strftime('%Y年%m月%d日')}
 			= (read.work.last_name || '') + (read.work.first_name || '')
